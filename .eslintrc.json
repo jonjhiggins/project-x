@@ -19,6 +19,12 @@
       "react": {
         "pragma": "React",
         "version": "detect"
+      },
+      "import/resolver": {
+        "parcel": {
+          "rootDir": "src",
+          "extensions": [".ts", ".svg"]
+        }
       }
     },
     "parser": "@typescript-eslint/parser"
