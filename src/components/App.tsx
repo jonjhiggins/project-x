@@ -1,54 +1,54 @@
 import * as React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory
-} from "react-router-dom";
-import styled from "styled-components";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
 import Question from "./Question";
-import leftArrow from "~img/left-arrow.svg";
-import rightArrow from "~img/right-arrow.svg";
+import Error from "./Error";
+import Start from "./Start";
+
+import Result from "./Result";
 
 export default function App() {
-  const [pageNumber, setPageNumber] = React.useState(1);
-
-  function handleNavigation(nextPage) {
-    setPageNumber(nextPage);
-    // history.push(`/question-${pageNumber}`);
-  }
-
   return (
     <Router>
       <div>
+        <GlobalStyle />
         <Switch>
+          <Route exact path="/">
+            <Start />
+          </Route>
           <Route
             path="/question/:id"
-            render={() => <Question heading={`${pageNumber}`} />}
-          />
+            render={({
+              match: {
+                params: { id }
+              }
+            }) => {
+              if (!id || !parseInt(id)) {
+                <Error type="404" />;
+              }
+              return <Question id={parseInt(id)} />;
+            }}
+          ></Route>
+          <Route path="/result">
+            <Result />
+          </Route>
+          <Route match="*" type={404}>
+            <Error type="404" />
+          </Route>
         </Switch>
-
-        <nav>
-          <Button
-            type="button"
-            onClick={() => handleNavigation(pageNumber - 1)}
-          >
-            <img src={leftArrow} alt="Left arrow" />
-          </Button>
-          <Button
-            type="button"
-            onClick={() => handleNavigation(pageNumber + 1)}
-          >
-            <img src={rightArrow} alt="Right arrow" />
-          </Button>
-        </nav>
       </div>
     </Router>
   );
 }
 
-const Button = styled("button")`
-  border: 0;
-  padding: 0;
-  margin: 0;
+const GlobalStyle = createGlobalStyle`
+html { 
+  font-size: 10px;
+}
+  body {
+    margin: 0;
+    padding: 0;
+    font-size: 1.6rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
 `;

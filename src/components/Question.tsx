@@ -1,12 +1,18 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
+import Nav from "./Nav";
+import Page from "./Page";
 
 interface Props {
-  heading: string;
+  id: number;
 }
 
-export default function Question({ heading }: Props) {
-  const history = useHistory();
-  console.log(history);
-  return <h1>{heading}</h1>;
+const FIRST_PAGE = 1;
+const LAST_PAGE = 3;
+
+export default function Question({ id }: Props) {
+  return (
+    <Page heading={`Question ${id}`}>
+      <Nav pageNumber={id} firstPage={FIRST_PAGE} lastPage={LAST_PAGE} />
+    </Page>
+  );
 }
