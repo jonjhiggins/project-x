@@ -1,7 +1,8 @@
 import * as React from "react";
+import Page from "./Page";
 
 const errorText = {
-  "404": "Sorry, page not found"
+  "404": "Sorry, page not found",
 };
 
 interface Props {
@@ -9,5 +10,5 @@ interface Props {
 }
 
 export default function Error({ type }: Props) {
-  return <h1>{errorText[type]}</h1>;
+  return <Page heading={errorText[type]} />;
 }

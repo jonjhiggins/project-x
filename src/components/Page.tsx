@@ -10,7 +10,7 @@ export default function Page({ children, heading }: Props) {
   return (
     <PageStyled>
       <HeadingStyled>{heading}</HeadingStyled>
-      {children || null}
+      <Content>{children || null}</Content>
     </PageStyled>
   );
 }
@@ -18,13 +18,17 @@ export default function Page({ children, heading }: Props) {
 const PageStyled = styled("div")`
   height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   padding: 1.6rem;
   box-sizing: border-box;
+  flex-direction: column;
+`;
+
+const Content = styled("div")`
+  text-align: center;
 `;
 
 const HeadingStyled = styled("h1")`
   text-align: center;
   font-size: 3.6rem;
+  margin: 0;
 `;

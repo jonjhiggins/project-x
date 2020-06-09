@@ -16,19 +16,9 @@ export default function App() {
           <Route exact path="/">
             <Start />
           </Route>
-          <Route
-            path="/question/:id"
-            render={({
-              match: {
-                params: { id }
-              }
-            }) => {
-              if (!id || !parseInt(id)) {
-                <Error type="404" />;
-              }
-              return <Question id={parseInt(id)} />;
-            }}
-          ></Route>
+          <Route path="/questions">
+            <Question />
+          </Route>
           <Route path="/result">
             <Result />
           </Route>
