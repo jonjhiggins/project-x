@@ -4,4 +4,4 @@ export interface QuestionItem {
   approve: undefined | boolean;
 }
 
-export type UpdateQuestion = (approve: boolean) => void;
+export type UpdateQuestion = (id: string, approve: boolean) => void;
