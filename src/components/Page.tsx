@@ -3,13 +3,13 @@ import styled from "styled-components";
 
 interface Props {
   children?: React.ReactChild;
-  heading: string;
+  heading?: string;
 }
 
 export default function Page({ children, heading }: Props) {
   return (
     <PageStyled>
-      <HeadingStyled>{heading}</HeadingStyled>
+      {heading ? <HeadingStyled>{heading}</HeadingStyled> : null}
       <Content>{children || null}</Content>
     </PageStyled>
   );
