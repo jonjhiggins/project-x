@@ -16,6 +16,7 @@ interface QuestionState {
 }
 
 export default function App() {
+  const debug = false
   const history = useHistory();
   const [questionsState, setQuestionsState] = React.useState<QuestionState>(
     R.clone(categories)
@@ -74,7 +75,7 @@ export default function App() {
             question={getQuestionFromIndex(currentQuestionIndex)}
             updateQuestion={updateQuestion}
           >
-            <Results />
+            {debug ? <Results /> : null }
           </Question>
         </Route>
         <Route path="/result">
@@ -98,7 +99,7 @@ html {
     margin: 0;
     padding: 0;
     font-size: 1.6rem;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
   }
 `;
 
