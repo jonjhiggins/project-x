@@ -53,7 +53,6 @@ export default function Question({
       if (!hammertime) {
         return;
       }
-      console.log(hammertime);
       hammertime.stop(false);
       hammertime.destroy();
     };
@@ -90,6 +89,7 @@ const Card = styled.div<{ moving: boolean; zIndex: number }>`
   transition: ${({ moving }) =>
     moving ? undefined : "transform 400ms ease-out"};
   z-index: ${({ zIndex }) => zIndex};
+  transform-origin: center;
 `;
 
 const CardContext = styled.div<{ index: number }>`
