@@ -21,10 +21,12 @@ const PageStyled = styled("div")`
   padding: 1.6rem;
   box-sizing: border-box;
   flex-direction: column;
+  justify-content: center;
 `;
 
 const Content = styled("div")`
   text-align: center;
+  width: 100%;
 `;
 
 const HeadingStyled = styled("h1")`
