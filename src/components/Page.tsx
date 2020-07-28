@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 interface Props {
   children?: React.ReactChild;
@@ -8,14 +9,18 @@ interface Props {
 
 export default function Page({ children, heading }: Props) {
   return (
-    <PageStyled>
+    <PageStyled
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       {heading ? <HeadingStyled>{heading}</HeadingStyled> : null}
       <Content>{children || null}</Content>
     </PageStyled>
   );
 }
 
-const PageStyled = styled("div")`
+const PageStyled = styled(motion.div)`
   height: 100vh;
   display: flex;
   padding: 1.6rem;

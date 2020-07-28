@@ -1,8 +1,7 @@
 import * as React from "react";
-import * as Hammer from "hammerjs";
 import styled from "styled-components";
-import Page from "./Page";
 import { QuestionItem, UpdateQuestion } from "~types";
+import { motion, useAnimation } from "framer-motion";
 
 interface Props {
   question: QuestionItem;
@@ -14,6 +13,8 @@ interface Props {
   hide: boolean;
 }
 
+const THRESHOLD = 200;
+
 export default function Question({
   question,
   updateQuestion,
@@ -23,49 +24,30 @@ export default function Question({
   active,
   hide,
 }: Props) {
-  const pageRef = React.useRef(null);
-  const [moving, setMoving] = React.useState(false);
-  let hammertime = null;
-
-  React.useEffect(() => {
-    if (!pageRef.current || !active) {
-      return;
-    }
-    hammertime = new Hammer.default(pageRef.current, {});
-    hammertime.on("pan", function(e) {
-      if (!moving) {
-        setMoving(true);
-      }
-      const xMulti = e.deltaX * 0.03;
-      const yMulti = e.deltaY / 80;
-      const rotate = xMulti * yMulti;
-      pageRef.current.style.transform = `translate(${e.deltaX}px, ${e.deltaY}px) rotate(${rotate}deg)`;
-    });
-    hammertime.on("panend", function(e) {
-      updateQuestion(question.id, e.deltaX > 0);
-      if (!moving) {
-        return;
-      }
-      setMoving(false);
-    });
-    hammertime.get("swipe").set({ direction: Hammer.DIRECTION_HORIZONTAL });
-    return () => {
-      if (!hammertime) {
-        return;
-      }
-      hammertime.stop(false);
-      hammertime.destroy();
-    };
-  }, [pageRef, active]);
-
-  React.useEffect(() => {
-    if (moving || !pageRef.current) {
-      return;
-    }
-    pageRef.current.style.transform = ``;
-  }, [moving, active]);
+  const controls = useAnimation();
   return hide ? null : (
-    <Card ref={pageRef} moving={moving} zIndex={zIndex}>
+    <Card
+      zIndex={zIndex}
+      drag={active}
+      active={active}
+      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+      onDrag={(_, info) => console.log(info.offset.x)}
+      onDragEnd={async (_, info) => {
+        if (info.offset.x < THRESHOLD && info.offset.x > -THRESHOLD) {
+          return;
+        }
+        const approve = info.offset.x > 0;
+        await controls.start({
+          opacity: 0,
+          x: approve ? 300 : -300,
+          y: info.offset.y,
+        });
+        updateQuestion(question.id, info.offset.x > 0);
+      }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 1.1 }}
+      animate={controls}
+    >
       <CardContext index={index}>
         <CardContent colour={colour} index={index}>
           <Heading>{question.name}</Heading>
@@ -80,16 +62,15 @@ const Heading = styled.h1`
   color: rgba(0, 0, 0, 0.5);
 `;
 
-const Card = styled.div<{ moving: boolean; zIndex: number }>`
+const Card = styled(motion.div)<{ zIndex: number; active: boolean }>`
   margin: 0 auto;
   border-radius: 2.4rem;
   position: relative;
   height: 100%;
   width: 100%;
-  transition: ${({ moving }) =>
-    moving ? undefined : "transform 400ms ease-out"};
   z-index: ${({ zIndex }) => zIndex};
   transform-origin: center;
+  cursor: ${({ active }) => (active ? "grab" : undefined)};
 `;
 
 const CardContext = styled.div<{ index: number }>`
