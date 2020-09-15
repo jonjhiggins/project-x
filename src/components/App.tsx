@@ -189,12 +189,19 @@ export default function App() {
 const GlobalStyle = createGlobalStyle`
 html { 
   font-size: 10px;
+  overflow: hidden;
 }
   body {
     margin: 0;
     padding: 0;
     font-size: 1.6rem;
     font-family: 'Jost', sans-serif;
+    width: 100vw;
+    overflow: hidden;
+  }
+
+  #root, #root > div {
+    width: 100vw;
   }
 `;
 

@@ -5,14 +5,16 @@ import { motion } from "framer-motion";
 interface Props {
   children?: React.ReactChild;
   heading?: string;
+  style?: { backgroundColor: string };
 }
 
-export default function Page({ children, heading }: Props) {
+export default function Page({ children, heading, style }: Props) {
   return (
     <PageStyled
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      style={style}
     >
       {heading ? <HeadingStyled>{heading}</HeadingStyled> : null}
       <Content>{children || null}</Content>
@@ -27,11 +29,16 @@ const PageStyled = styled(motion.div)`
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
 `;
 
 const Content = styled("div")`
   text-align: center;
   width: 100%;
+  flex: 1 0 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const HeadingStyled = styled("h1")`

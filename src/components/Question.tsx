@@ -31,7 +31,6 @@ export default function Question({
       drag={active}
       active={active}
       dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-      onDrag={(_, info) => console.log(info.offset.x)}
       onDragEnd={async (_, info) => {
         if (info.offset.x < THRESHOLD && info.offset.x > -THRESHOLD) {
           return;
